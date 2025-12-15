@@ -1,26 +1,33 @@
-; ft_strlen by 0xdeadabed
-; 18.06.2022 07:52 PM
-; nasm -f elf64 ft_strlen.asm
+	; ft_strlen by hs4bir
+	; 18.06.2022
+	; nasm -f elf64 ft_strlen.asm
 
-segment .text
+	segment .text
 
-global _ft_strlen
+	global _ft_strlen
 
 _ft_strlen:
-	push	rcx					; Create a counter
-	xor		rcx, rcx			; Use the XOR to set the counter to zero
+	;    TODO: strlen doesn't handle null pointer check. Do we?
+	test rdi, rdi
+	jz   _null_ptr
+
+	;   start address
+	mov rax, rdi
 
 _loop_chars:
-	cmp		[rdi], byte 0x0		; Compare to nullbyte
-	jz		_null_byte			; Stop the loop if reached null byte
+	cmp byte [rdi], 0x0
+	je  _done
+	inc rdi
+	jmp _loop_chars
 
-	inc		rcx					; Increment the counter
-	inc		rdi					; Move to the next char
-	jmp		_loop_chars			; Restart the loop
+_done:
+	;   Calculate length (end - start)
+	sub rdi, rax
+	;   rax = return register
+	mov rax, rdi
+	ret
 
-
-_null_byte:
-	mov		rax, rcx			; put the counter(tcx) to rax
-
-	pop		rcx					; restore rcx
+_null_ptr:
+	;   Return 0 in case of NULL pointer
+	xor rax, rax
 	ret
