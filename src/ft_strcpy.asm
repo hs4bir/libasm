@@ -1,32 +1,29 @@
-; ft_strcpy by 0xdeadabed
-; 19.06.2022 05:03 PM
-; nasm -f elf64 ft_strcpy.asm
+	; ft_strcpy by hs4bir
+	; 19.06.2022
+	; nasm -f elf64 ft_strcpy.asm
 
-segment .text
+	segment .text
 
-global	_ft_strcpy
+	global ft_strcpy
 
-_ft_strcpy:
-	push	rcx						; Create a typical counter
-	xor		rcx, rcx				; Set the counter to zero
-	jmp		_loop_cpy
-
-_loop_cpy:
 	; rdi -> the first argument passed
 	; rsi -> the second argument passed
 	; strcpy prototype -> strcpy(char *dst, char *src)
 
-	cmp		[rsi+rcx], byte 0x0		; Compate the source to see if it's nullbyte
-	jz		_null_byte_end
-	
-	mov		dl, byte [rsi+rcx]		; dl is 8bit char, [rsi+rcx] is used to dereference it's same as src[i]
-	mov		byte [rdi+rcx], dl
-	inc		rcx
-	jmp		_loop_cpy
+ft_strcpy:
+	;   Save dst for return value
+	mov rax, rdi
 
-
-_null_byte_end:
-	mov		byte [rdi+rcx], 0		; set nullbyte to the end of the dst
-	mov		rax, rdi				; put the return value to rax
-	pop		rcx						; delete the counter
+_loop_cpy:
+	;    load from src
+	mov  dl, byte[rsi]
+	;    Store to dts
+	mov  byte[rdi], dl
+	;    Advance src and dst
+	inc  rsi
+	inc  rdi
+	;    Was it null byte?
+	test dl, dl
+	jnz  _loop_cpy
 	ret
+
