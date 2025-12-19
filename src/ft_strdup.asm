@@ -1,14 +1,60 @@
-; ft_strdup by 0xdeadabed
-; 23.06.2022 04:42 PM
-; nasm -f elf64 ft_strdip.asm
+	; ft_strdup by hs4bir
+	; 23.06.2022
+	; nasm -f elf64 ft_strdip.asm
 
-; function prototype -> strdup(const char *s1);
-; allocates sufficient memory for a copy of the string 's1' and copy it.
-; returns a string of chars
-; rdi register -> the argument 's1'
+	; function prototype -> strdup(const char *s1)
+	; allocates sufficient memory for a copy of the string 's1' and copy it.
+	; returns a string of chars
+	; rdi register -> the argument 's1'
 
-segment .text
+	segment .text
 
-global	_ft_strdup
-extern	_malloc
+	global ft_strdup
+	extern ft_strlen
+	extern ft_strcpy
+	extern __errno_location
+	extern malloc
+
+ft_strdup:
+	;    Null check
+	test rdi, rdi
+	jz   _null_input
+
+	;    Save original string pointer to the top of the stack
+	push rdi
+	;    Call strlen on rdi (already set)
+	call ft_strlen
+	;    +1 for null terminator sanity
+	inc  rax
+
+	;    mov the size to rdi
+	mov  rdi, rax
+	call malloc
+
+	;    Check malloc errors
+	test rax, rax
+	jz   _malloc_error
+
+	;    dst = allocated memory
+	mov  rdi, rax
+	;    src = original string on the top of the stack.
+	pop  rsi
+	call ft_strcpy
+	ret
+
+_malloc_error:
+	;    clean up the stack
+	pop  rdi
+	call __errno_location
+	;    12: ENOMEM
+	mov  dword [rax], 12
+	xor  rax, rax
+	ret
+
+_null_input:
+	call __errno_location
+	;    22: EINVAL
+	mov  dword [rax], 22
+	xor  rax, rax
+	ret
 
