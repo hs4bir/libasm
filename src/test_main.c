@@ -124,6 +124,7 @@ test_write (void)
 
   errno = 0;
   ret = ft_write (-1, "test", 4);
+	printf("ERRNO: %d\n", errno);
   assert_test (ret == -1 && errno == EBADF, "Write with bad fd sets errno");
 }
 
@@ -315,20 +316,20 @@ main (void)
   printf (BLUE "LIBASM UNIT TESTS\n" RESET);
 
   // String functions tests
-  // test_strlen ();
-  // test_strcpy ();
-  // test_strcmp ();
-  // test_strdup ();
+  test_strlen ();
+  test_strcpy ();
+  test_strcmp ();
+  test_strdup ();
 
-  //// I/O functions tests
-  // test_write ();
-  // test_read ();
+  // I/O functions tests
+   test_write ();
+   test_read ();
 
-  //// Linked list tests
-  // test_list_size ();
-  // test_list_push_front ();
+  // Linked list tests
+   test_list_size ();
+   test_list_push_front ();
   // test_list_sort ();
-  test_list_remove_if ();
+  //test_list_remove_if ();
 
   printf (BLUE "Test Results: " RESET);
   if (test_passed == test_count)
