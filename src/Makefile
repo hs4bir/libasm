@@ -11,7 +11,7 @@ NAME = libasm.a
 
 TEST = test_libasm
 
-SHELL = /usr/sbin/sh
+#SHELL = /usr/bin/sh
 
 ASM_SRCS = ft_strlen.asm \
            ft_strcpy.asm \
