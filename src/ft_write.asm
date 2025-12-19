@@ -27,7 +27,7 @@ _error:
 	;    Save error code
 	mov  rdi, rax
 	;    Get errno address. Note, we should call ___error on macOS
-	call __errno_location
+	call __errno_location wrt ..plt
 	;    store error code at errno location
 	mov  [rax], rdi
 	mov  rax, -1

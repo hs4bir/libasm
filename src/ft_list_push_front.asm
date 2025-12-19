@@ -19,7 +19,7 @@ ft_list_push_front:
 	;    sizeof(t_list) = 16 bytes
 	mov  rdi, 16
 	;    allocate a new node, new_node = rax
-	call malloc
+	call malloc wrt ..plt
 
 	;    Check for malloc failure
 	test rax, rax

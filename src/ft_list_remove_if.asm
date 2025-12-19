@@ -73,7 +73,7 @@ _remove_loop:
 	;    Restore node pointer
 	pop  rbx
 	mov  rdi, rbx
-	call free
+	call free wrt ..plt
 
 	pop r12
 

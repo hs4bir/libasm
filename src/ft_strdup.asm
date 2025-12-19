@@ -29,7 +29,7 @@ ft_strdup:
 
 	;    mov the size to rdi
 	mov  rdi, rax
-	call malloc
+	call malloc wrt ..plt
 
 	;    Check malloc errors
 	test rax, rax
@@ -45,14 +45,14 @@ ft_strdup:
 _malloc_error:
 	;    clean up the stack
 	pop  rdi
-	call __errno_location
+	call __errno_location wrt ..plt
 	;    12: ENOMEM
 	mov  dword [rax], 12
 	xor  rax, rax
 	ret
 
 _null_input:
-	call __errno_location
+	call __errno_location wrt ..plt
 	;    22: EINVAL
 	mov  dword [rax], 22
 	xor  rax, rax
