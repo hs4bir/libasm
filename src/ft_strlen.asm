@@ -4,9 +4,9 @@
 
 	segment .text
 
-	global _ft_strlen
+	global ft_strlen
 
-_ft_strlen:
+ft_strlen:
 	;    TODO: strlen doesn't handle null pointer check. Do we?
 	test rdi, rdi
 	jz   _null_ptr
